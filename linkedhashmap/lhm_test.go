@@ -75,7 +75,6 @@ func TestFirstNil(t *testing.T) {
 		m := lhm.New[string, string]()
 		kvp := m.First()
 		assert.Nil(t, kvp, "Should be nil")
-
 	})
 }
 
@@ -98,7 +97,6 @@ func TestNextNil(t *testing.T) {
 		m.Put("e", "Epsilon")
 		kvp := m.Last().Next()
 		assert.Nil(t, kvp, "Should be nil")
-
 	})
 }
 
@@ -119,7 +117,6 @@ func TestLastNil(t *testing.T) {
 		m := lhm.New[string, string]()
 		kvp := m.Last()
 		assert.Nil(t, kvp, "Should be nil")
-
 	})
 }
 
@@ -141,7 +138,6 @@ func TestPrevNil(t *testing.T) {
 		m.Put("d", "Delta")
 		kvp := m.First().Prev()
 		assert.Nil(t, kvp, "Should be nil")
-
 	})
 }
 
@@ -155,5 +151,15 @@ func TestNewWithCapacity(t *testing.T) {
 
 		value = m.Get("z")
 		assert.Equal(t, "Zeta", value, "Zeta should exist at key z")
+	})
+}
+
+func TestKeys(t *testing.T) {
+	t.Run("", func(t *testing.T) {
+		m := lhm.New[string, string]()
+		m.Put("a", "Alpha")
+		m.Put("z", "Zeta")
+
+		assert.Len(t, m.Keys(), 2, "length should be 2")
 	})
 }

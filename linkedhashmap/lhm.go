@@ -38,11 +38,15 @@ func (lhm *LinkedHashMap[K, V]) initialize(capacity int) {
 	lhm.dll = dll.New[*KVP[K, V]]()
 }
 
+// Put will update the value for the given key if it exists, and return the prior value.
+// If no previous value for the given key exists, the value is added and no previous value
+// is returned.
 func (lhm *LinkedHashMap[K, V]) Put(key K, value V) (priorValue V, exists bool) {
-	if existingKVP, exists := lhm.kvpairs[key]; exists {
-		priorValue := existingKVP.Value
+	var pv V
+	if existingKVP, found := lhm.kvpairs[key]; found {
+		pv = existingKVP.Value
 		existingKVP.Value = value
-		return priorValue, true
+		return pv, true
 	}
 
 	newKVP := &KVP[K, V]{
@@ -52,14 +56,15 @@ func (lhm *LinkedHashMap[K, V]) Put(key K, value V) (priorValue V, exists bool) 
 	newKVP.node = lhm.dll.AddLast(newKVP)
 	lhm.kvpairs[key] = newKVP
 
-	return
+	return pv, false
 }
 
-func (lhm *LinkedHashMap[K, V]) Get(key K) (val V) {
-	if kvp, exists := lhm.kvpairs[key]; exists {
-		return kvp.Value
+func (lhm *LinkedHashMap[K, V]) Get(key K) V {
+	var result V
+	if kvp, found := lhm.kvpairs[key]; found {
+		result = kvp.Value
 	}
-	return
+	return result
 }
 
 func (lhm *LinkedHashMap[K, V]) First() *KVP[K, V] {
