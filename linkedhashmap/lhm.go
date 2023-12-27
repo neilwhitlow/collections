@@ -19,7 +19,8 @@ func New[K comparable, V any](options ...any) *LinkedHashMap[K, V] {
 	// lack of overloading bites again. feels wrong using ...any
 	// just to allow specifying capacity or not, but I suppose
 	// better than always forcing capacity parameter to be supplied.
-	// maybe add a struct of options later
+	// maybe add a struct of options later. Better yet, I should explore
+	// fp-style builder patterns (.withCapacity, .withBlahBlah, etc)
 	linkedHashMap := &LinkedHashMap[K, V]{}
 	var initialCapacity int
 	for _, o := range options {
